@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.braincustom.projmongodb.domain.Post;
 import com.braincustom.projmongodb.domain.User;
+import com.braincustom.projmongodb.dto.AuthorDTO;
 import com.braincustom.projmongodb.repository.PostRepository;
 import com.braincustom.projmongodb.repository.UserRepository;
 
@@ -36,12 +37,13 @@ public class Instantiation implements CommandLineRunner {
 		User alex = new User(null, "Alex Green", "alex@gmail.com");
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
 		
-		Post post1 = new Post(null, sdf.parse("01/05/2020"), "Partiu viagem!!", "Vou voltar pra Goiânia", maria);
-		Post post2 = new Post(null, sdf.parse("07/05/2020"), "Bom dia flor do dia!!", "Acordei feliz hoje!", maria);
+		//salvar os usuários no MongoDB para que ele um id próprio
+		userRepository.saveAll(Arrays.asList(maria, alex, bob));
+		
+		Post post1 = new Post(null, sdf.parse("01/05/2020"), "Partiu viagem!!", "Vou voltar pra Goiânia", new AuthorDTO(maria));
+		Post post2 = new Post(null, sdf.parse("07/05/2020"), "Bom dia flor do dia!!", "Acordei feliz hoje!", new AuthorDTO(maria));
 		
 		//instanciando os objetos e salvando no MongoDB
-		userRepository.saveAll(Arrays.asList(maria, alex, bob));
 		postRepository.saveAll(Arrays.asList(post1, post2));
 	}
-
 }
