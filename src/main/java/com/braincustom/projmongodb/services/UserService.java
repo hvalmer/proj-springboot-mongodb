@@ -36,6 +36,20 @@ public class UserService {
 		repo.deleteById(id);
 	}
 	
+	/*
+	 * o usuário envia os dados na requisição, busca o objeto original no BD,
+	 * alterar o objeto com os dados da requisição, salvando o objeto buscado*/
+	public User update(User obj) {
+		User newObj = findById(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
+	}
+	
+	private void updateData(User newObj, User obj) {
+		newObj.setName(obj.getName());
+		newObj.setEmail(obj.getEmail());
+	}
+
 	public User fromDTO(UserDTO objDto) {
 		return new User(objDto.getId(), objDto.getName(), objDto.getEmail());
 	}
