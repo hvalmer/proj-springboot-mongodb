@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.braincustom.projmongodb.domain.Post;
 import com.braincustom.projmongodb.domain.User;
 import com.braincustom.projmongodb.dto.UserDTO;
 import com.braincustom.projmongodb.services.UserService;
@@ -65,4 +66,12 @@ public class UserResource {
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
+	
+	// método que retorna os posts de um usuário
+		@RequestMapping(value = "/{id}/posts", method = RequestMethod.GET)
+		public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+			User obj = service.findById(id);
+			return ResponseEntity.ok().body(obj.getPosts());
+		}
+
 }
