@@ -33,6 +33,7 @@ public class Instantiation implements CommandLineRunner {
 		userRepository.deleteAll();
 		postRepository.deleteAll();
 		
+		//craindo os usuários
 		User maria = new User(null, "Maria Brown", "maria@gmail.com");
 		User alex = new User(null, "Alex Green", "alex@gmail.com");
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
@@ -40,10 +41,14 @@ public class Instantiation implements CommandLineRunner {
 		//salvar os usuários no MongoDB para que ele um id próprio
 		userRepository.saveAll(Arrays.asList(maria, alex, bob));
 		
+		//criando os posts
 		Post post1 = new Post(null, sdf.parse("01/05/2020"), "Partiu viagem!!", "Vou voltar pra Goiânia", new AuthorDTO(maria));
 		Post post2 = new Post(null, sdf.parse("07/05/2020"), "Bom dia flor do dia!!", "Acordei feliz hoje!", new AuthorDTO(maria));
 		
 		//instanciando os objetos e salvando no MongoDB
 		postRepository.saveAll(Arrays.asList(post1, post2));
+		
+		maria.getPosts().addAll(Arrays.asList(post1, post2));
+		userRepository.save(maria);
 	}
 }

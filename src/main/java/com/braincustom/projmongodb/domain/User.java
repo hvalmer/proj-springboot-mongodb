@@ -1,8 +1,11 @@
 package com.braincustom.projmongodb.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="user")
@@ -13,6 +16,11 @@ public class User implements Serializable {
 	private String id;
 	private String name;
 	private String email;
+	
+	//lazy = true quer dizer que os POST serão carregados se explicitamente forem acessados
+	//DBRef - o usuário vai conhecer os posts dele, mas apenas referências aos POSTS 
+	@DBRef(lazy = true)
+	private List<Post> posts = new ArrayList<>();
 	
 	public User() {
 	}
@@ -46,6 +54,14 @@ public class User implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 
 	@Override
