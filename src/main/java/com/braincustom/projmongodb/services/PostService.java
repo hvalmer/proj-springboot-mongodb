@@ -1,5 +1,6 @@
 package com.braincustom.projmongodb.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,13 @@ public class PostService {
 	}
 	
 	//criando um método de busca
-	public List<Post> findByTitle(String test){
-		return repo.searchTitleByHarlan(test);
+	public List<Post> findByTitle(String text){
+		return repo.searchTitleByHarlan(text);
+	}
+	
+	//criando um método de consulta
+	public List<Post> fullSearch(String text, Date minDate, Date maxDate ){
+		maxDate = new Date(maxDate.getTime() + 24 * 60 * 60 * 1000);
+		return repo.fullSearchBusca(text, minDate, maxDate);
 	}
 }

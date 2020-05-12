@@ -1,5 +1,6 @@
 package com.braincustom.projmongodb.resources;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,22 @@ public class PostResource {
 
 	// método que retorna um usuário por id
 	@RequestMapping(value = "/titlesearch", method = RequestMethod.GET)
-	public ResponseEntity<List<Post>> findBTitle(@RequestParam(value = "text", defaultValue="") String text) {
-		text = URL.decodeParam(text);//decodifica o texto
+	public ResponseEntity<List<Post>> findBTitle(@RequestParam(value = "text", defaultValue = "") String text) {
+		text = URL.decodeParam(text);// decodifica o texto
 		List<Post> list = service.findByTitle(text);
+		return ResponseEntity.ok().body(list);
+	}
+
+	// método que retorna um usuário por id
+	@RequestMapping(value = "/fullsearch", method = RequestMethod.GET)
+	public ResponseEntity<List<Post>> fullSearch(
+			@RequestParam(value = "text", defaultValue = "") String text,
+			@RequestParam(value = "minDate", defaultValue = "") String minDate,
+			@RequestParam(value = "maxDate", defaultValue = "") String maxDate) {
+		text = URL.decodeParam(text);// decodifica o texto
+		Date min = URL.convertDate(minDate, new Date(0L));
+		Date max = URL.convertDate(maxDate, new Date());
+		List<Post> list = service.fullSearch(text, min, max);
 		return ResponseEntity.ok().body(list);
 	}
 }
