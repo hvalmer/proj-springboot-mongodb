@@ -1,5 +1,6 @@
 package com.braincustom.projmongodb.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,5 +19,10 @@ public class PostService {
 	public Post findById(String id) {
 		Optional<Post> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado!"));
+	}
+	
+	//criando um método de busca
+	public List<Post> findByTitle(String test){
+		return repo.findByTitleContainingIgnoreCase(test);
 	}
 }
